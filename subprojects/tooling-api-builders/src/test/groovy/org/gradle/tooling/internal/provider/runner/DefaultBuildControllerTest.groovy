@@ -23,7 +23,7 @@ import org.gradle.internal.build.BuildProjectRegistry
 import org.gradle.internal.build.BuildState
 import org.gradle.internal.build.BuildStateRegistry
 import org.gradle.internal.build.BuildToolingModelController
-import org.gradle.internal.concurrent.GradleThread
+
 import org.gradle.internal.operations.MultipleBuildOperationFailures
 import org.gradle.tooling.internal.gradle.GradleBuildIdentity
 import org.gradle.tooling.internal.gradle.GradleProjectIdentity
@@ -46,14 +46,6 @@ class DefaultBuildControllerTest extends Specification {
     def buildStateRegistry = Stub(BuildStateRegistry)
     def toolingModelController = Mock(BuildToolingModelController)
     def controller = new DefaultBuildController(toolingModelController, cancellationToken, buildStateRegistry)
-
-    def setup() {
-        GradleThread.setManaged()
-    }
-
-    def cleanup() {
-        GradleThread.setUnmanaged()
-    }
 
     def "cannot get build model from unmanaged thread"() {
         given:
