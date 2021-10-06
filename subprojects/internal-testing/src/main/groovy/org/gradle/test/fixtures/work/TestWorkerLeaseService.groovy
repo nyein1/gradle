@@ -18,6 +18,7 @@ package org.gradle.test.fixtures.work
 
 import org.gradle.internal.Factory
 import org.gradle.internal.resources.ResourceLock
+import org.gradle.internal.work.Synchronizer
 import org.gradle.internal.work.WorkerLeaseRegistry
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.util.Path
@@ -61,6 +62,11 @@ class TestWorkerLeaseService implements WorkerLeaseService {
     @Override
     void runAsLightWeightWorker(WorkerLease sharedLease, Runnable action) {
         action.run()
+    }
+
+    @Override
+    Synchronizer newResource() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

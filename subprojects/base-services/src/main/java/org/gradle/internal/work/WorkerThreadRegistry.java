@@ -26,7 +26,7 @@ import org.gradle.internal.service.scopes.ServiceScope;
 @ServiceScope(Scopes.BuildSession.class)
 public interface WorkerThreadRegistry {
     /**
-     * Runs the given action as a worker.
+     * Runs the given action as a worker. While the action is running, the thread can acquire resource locks.
      */
     <T> T runAsWorkerThread(WorkerLeaseRegistry.WorkerLease lease, Factory<T> action);
 

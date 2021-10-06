@@ -113,6 +113,7 @@ public class DefaultWorkerLeaseService implements WorkerLeaseService, Stoppable 
 
     @Override
     public void runAsLightWeightWorker(WorkerLease sharedLease, Runnable action) {
+        assertIsNotWorker();
         workerLeaseLockRegistry.associateResourceLock(sharedLease);
         try {
             action.run();
@@ -120,6 +121,17 @@ public class DefaultWorkerLeaseService implements WorkerLeaseService, Stoppable 
             workerLeaseLockRegistry.unassociateResourceLock(sharedLease);
             coordinationService.notifyStateChange();
         }
+    }
+
+    private void assertIsNotWorker() {
+        if (isWorkerThread()) {
+            throw new IllegalStateException("This thread is already a worker thread.");
+        }
+    }
+
+    @Override
+    public Synchronizer newResource() {
+        return new DefaultSynchronizer(this);
     }
 
     @Override
